@@ -5,27 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Literature</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Add Firebase SDKs -->
+    
+    <!-- Firebase App (the core Firebase SDK) -->
     <script src="https://www.gstatic.com/firebasejs/9.x/firebase-app.js"></script>
+
+    <!-- Firebase Analytics SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.x/firebase-analytics.js"></script>
+
+    <!-- Firebase Authentication SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.x/firebase-auth.js"></script>
+
+    <!-- Firebase Firestore SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.x/firebase-firestore.js"></script>
+    
     <script>
-        // Initialize Firebase
+        // Your web app's Firebase configuration
         const firebaseConfig = {
-            apiKey: "your-api-key",
-            authDomain: "your-project-id.firebaseapp.com",
-            projectId: "your-project-id",
-            storageBucket: "your-project-id.appspot.com",
-            messagingSenderId: "your-messaging-sender-id",
-            appId: "your-app-id"
+            apiKey: "AIzaSyCA_FIMfr4gdsmcav1L1EsFFolBdw0QJvQ",
+            authDomain: "daily-literature-18092.firebaseapp.com",
+            projectId: "daily-literature-18092",
+            storageBucket: "daily-literature-18092.appspot.com",
+            messagingSenderId: "1009603811937",
+            appId: "1:1009603811937:web:d4032ef2630719d545e820",
+            measurementId: "G-K7J8FQSHMN"
         };
-        firebase.initializeApp(firebaseConfig);
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+
+        // Initialize Firebase Analytics
+        const analytics = firebase.analytics();
+
+        // Now, you can use firebase.firestore(), firebase.auth(), etc. throughout your application
     </script>
 </head>
 <body>
     <div class="container">
         <h1>Daily Literature</h1>
-        
+
         <!-- User Authentication Forms -->
         <div id="authSection">
             <h2>Sign Up</h2>
@@ -43,13 +60,13 @@
             </form>
         </div>
 
-        <!-- Logout Button -->
+        <!-- Logout Section -->
         <div id="logoutSection" style="display: none;">
             <p>Welcome, <span id="userEmail"></span></p>
             <button id="logoutBtn">Logout</button>
         </div>
 
-        <!-- Buttons for Main Content (Visible only after login) -->
+        <!-- Content Section -->
         <div id="contentSection" style="display: none;">
             <h2>Click below to read a random piece of literature!</h2>
             <div class="buttons">
@@ -58,7 +75,6 @@
                 <button id="essayBtn" class="large-button">Essay</button>
             </div>
 
-            <!-- Control Buttons -->
             <div class="control-buttons">
                 <button id="reshuffleBtn" class="small-button">Reshuffle</button>
                 <button id="clearHistoryBtn" class="small-button">Clear History</button>
