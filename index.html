@@ -1,105 +1,37 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Simulated user authentication (LocalStorage can be used for a basic system)
-    const signupForm = document.getElementById('signupForm');
-    const loginForm = document.getElementById('loginForm');
-    const logoutBtn = document.getElementById('logoutBtn');
-    const userEmailDisplay = document.getElementById('userEmail');
-    const authSection = document.getElementById('authSection');
-    const contentSection = document.getElementById('contentSection');
-    const logoutSection = document.getElementById('logoutSection');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Literature</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Literature</h1>
 
-    // Content Buttons
-    const poemBtn = document.getElementById('poemBtn');
-    const shortStoryBtn = document.getElementById('shortStoryBtn');
-    const essayBtn = document.getElementById('essayBtn');
-    const reshuffleBtn = document.getElementById('reshuffleBtn');
-    const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+        <!-- Content Section -->
+        <div id="contentSection">
+            <h2>Click below to read a random piece of literature!</h2>
+            <div class="buttons">
+                <button id="poemBtn" class="large-button">Poem</button>
+                <button id="shortStoryBtn" class="large-button">Short Story</button>
+                <button id="essayBtn" class="large-button">Essay</button>
+            </div>
 
-    // Simulated data (poems, short stories, essays)
-    const poems = [
-        "https://example.com/poem1",
-        "https://example.com/poem2",
-        "https://example.com/poem3"
-    ];
+            <div class="control-buttons">
+                <button id="reshuffleBtn" class="small-button">Reshuffle</button>
+                <button id="clearHistoryBtn" class="small-button">Clear History</button>
+            </div>
 
-    const shortStories = [
-        "https://example.com/shortstory1",
-        "https://example.com/shortstory2",
-        "https://example.com/shortstory3"
-    ];
+            <div class="import-export-buttons">
+                <button id="exportBtn" class="small-button">Export History</button>
+                <input type="file" id="importFile" style="display:none;" />
+                <button id="importBtn" class="small-button">Import History</button>
+            </div>
+        </div>
 
-    const essays = [
-        "https://example.com/essay1",
-        "https://example.com/essay2",
-        "https://example.com/essay3"
-    ];
-
-    // User sign-up simulation (basic localStorage mechanism)
-    signupForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const email = document.getElementById('signupEmail').value;
-        const password = document.getElementById('signupPassword').value;
-
-        // Simulating user creation and storing in localStorage
-        localStorage.setItem('userEmail', email);
-        localStorage.setItem('userPassword', password);
-
-        alert('Sign up successful!');
-    });
-
-    // User login simulation
-    loginForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const email = document.getElementById('loginEmail').value;
-        const password = document.getElementById('loginPassword').value;
-
-        // Simulating user login check
-        const storedEmail = localStorage.getItem('userEmail');
-        const storedPassword = localStorage.getItem('userPassword');
-
-        if (email === storedEmail && password === storedPassword) {
-            userEmailDisplay.textContent = email;
-            authSection.style.display = 'none';
-            contentSection.style.display = 'block';
-            logoutSection.style.display = 'block';
-        } else {
-            alert('Invalid email or password!');
-        }
-    });
-
-    // Logout simulation
-    logoutBtn.addEventListener('click', () => {
-        authSection.style.display = 'block';
-        contentSection.style.display = 'none';
-        logoutSection.style.display = 'none';
-        alert('Logged out!');
-    });
-
-    // Load content functionality
-    poemBtn.addEventListener('click', () => {
-        const randomPoem = poems[Math.floor(Math.random() * poems.length)];
-        window.open(randomPoem, '_blank');
-    });
-
-    shortStoryBtn.addEventListener('click', () => {
-        const randomShortStory = shortStories[Math.floor(Math.random() * shortStories.length)];
-        window.open(randomShortStory, '_blank');
-    });
-
-    essayBtn.addEventListener('click', () => {
-        const randomEssay = essays[Math.floor(Math.random() * essays.length)];
-        window.open(randomEssay, '_blank');
-    });
-
-    // Reshuffle simulation
-    reshuffleBtn.addEventListener('click', () => {
-        alert('Content reshuffled!');
-    });
-
-    // Clear history simulation
-    clearHistoryBtn.addEventListener('click', () => {
-        localStorage.removeItem('userEmail');
-        localStorage.removeItem('userPassword');
-        alert('History cleared!');
-    });
-});
+        <script src="script.js"></script>
+    </div>
+</body>
+</html>
