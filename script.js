@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Set up buttons
         document.getElementById('poemBtn').addEventListener('click', () => {
             window.open(currentPoem, '_blank')
-            console.log("Poem URL:", currentPoem);
+            console.log("Poem URL:", currentPoem)
         });
         document.getElementById('shortStoryBtn').addEventListener('click', () => {
             window.open(currentShortStory, '_blank');
