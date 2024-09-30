@@ -19,10 +19,6 @@ h1 {
     color: #333;
 }
 
-.buttons {
-    margin: 20px 0;
-}
-
 button {
     padding: 15px 25px;
     margin: 10px;
@@ -34,6 +30,41 @@ button {
     cursor: pointer;
 }
 
+/* Styling for the larger buttons (Poem, Short Story, Essay) */
+.large-button {
+    padding: 20px 40px;
+    font-size: 18px;
+    background-color: #007BFF;
+    color: white;
+    border-radius: 10px;
+    border: none;
+    margin: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.large-button:hover {
+    background-color: #0056b3;
+}
+
+/* Styling for the smaller buttons (Flag, Reshuffle, Clear History, Clear Flags) */
+.small-button {
+    padding: 10px 20px;
+    font-size: 14px;
+    background-color: #6c757d;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    margin: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.small-button:hover {
+    background-color: #5a6268;
+}
+
 button:hover {
     background-color: #0056b3;
 }
+
