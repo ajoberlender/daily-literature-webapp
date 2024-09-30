@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Debugging: Log if the DOM is loaded
+    console.log("DOM fully loaded and parsed");
+
     // Content Buttons
     const poemBtn = document.getElementById('poemBtn');
     const shortStoryBtn = document.getElementById('shortStoryBtn');
@@ -8,6 +11,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const exportBtn = document.getElementById('exportBtn');
     const importBtn = document.getElementById('importBtn');
     const importFile = document.getElementById('importFile');
+
+    // Debugging: Log if the buttons are found
+    console.log("poemBtn:", poemBtn);
+    console.log("shortStoryBtn:", shortStoryBtn);
+    console.log("essayBtn:", essayBtn);
+    console.log("reshuffleBtn:", reshuffleBtn);
+    console.log("clearHistoryBtn:", clearHistoryBtn);
+    console.log("exportBtn:", exportBtn);
+    console.log("importBtn:", importBtn);
+
+    if (!poemBtn || !shortStoryBtn || !essayBtn || !reshuffleBtn || !clearHistoryBtn) {
+        console.error("One or more buttons were not found in the DOM!");
+        return;
+    }
 
     let poems = [];
     let shortStories = [];
@@ -20,6 +37,11 @@ document.addEventListener('DOMContentLoaded', () => {
             poems = data.poems || [];
             shortStories = data.shortStories || [];
             essays = data.essays || [];
+
+            // Debugging: Log the loaded data
+            console.log("Poems loaded:", poems);
+            console.log("Short stories loaded:", shortStories);
+            console.log("Essays loaded:", essays);
         })
         .catch(error => {
             console.error("Error loading data:", error);
