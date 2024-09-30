@@ -15,7 +15,7 @@
     "https://www.poetryfoundation.org/poems/44107/a-red-red-rose",
     "https://www.poetryfoundation.org/poems/47652/ode-to-a-nightingale",
     "https://www.poetryfoundation.org/poems/48985/the-tyger",
-    "https://www.gutenberg.org/ebooks/11047"
+    "https://www.gutenberg.org/ebooks/11047",
   ],
   "shortStories": [
     "https://www.gutenberg.org/ebooks/1952",
@@ -31,7 +31,7 @@
     "https://americanliterature.com/author/edgar-allan-poe/short-story/the-pit-and-the-pendulum",
     "https://americanliterature.com/author/washington-irving/short-story/the-legend-of-sleepy-hollow",
     "https://www.gutenberg.org/ebooks/10007",
-    "https://www.gutenberg.org/ebooks/3296"
+    "https://www.gutenberg.org/ebooks/3296",
   ],
   "essays": [
     "https://www.gutenberg.org/ebooks/8800",
@@ -48,6 +48,6 @@
     "https://archive.org/details/fouroldfashioned00stevuoft",
     "https://www.gutenberg.org/ebooks/14068",
     "https://www.gutenberg.org/ebooks/21279",
-    "https://www.gutenberg.org/ebooks/45631"
+    "https://www.gutenberg.org/ebooks/45631",
   ]
 }
