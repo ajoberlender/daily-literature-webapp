@@ -1,105 +1,116 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Simulated user authentication (LocalStorage can be used for a basic system)
-    const signupForm = document.getElementById('signupForm');
-    const loginForm = document.getElementById('loginForm');
-    const logoutBtn = document.getElementById('logoutBtn');
-    const userEmailDisplay = document.getElementById('userEmail');
-    const authSection = document.getElementById('authSection');
-    const contentSection = document.getElementById('contentSection');
-    const logoutSection = document.getElementById('logoutSection');
-
     // Content Buttons
     const poemBtn = document.getElementById('poemBtn');
     const shortStoryBtn = document.getElementById('shortStoryBtn');
     const essayBtn = document.getElementById('essayBtn');
     const reshuffleBtn = document.getElementById('reshuffleBtn');
     const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+    const exportBtn = document.getElementById('exportBtn');
+    const importBtn = document.getElementById('importBtn');
+    const importFile = document.getElementById('importFile');
 
-    // Simulated data (poems, short stories, essays)
-    const poems = [
-        "https://example.com/poem1",
-        "https://example.com/poem2",
-        "https://example.com/poem3"
-    ];
+    let poems = [];
+    let shortStories = [];
+    let essays = [];
 
-    const shortStories = [
-        "https://example.com/shortstory1",
-        "https://example.com/shortstory2",
-        "https://example.com/shortstory3"
-    ];
+    // Fetch content from data.json
+    fetch('data.json')
+        .then(response => response.json())
+        .then(data => {
+            poems = data.poems || [];
+            shortStories = data.shortStories || [];
+            essays = data.essays || [];
+        })
+        .catch(error => {
+            console.error("Error loading data:", error);
+        });
 
-    const essays = [
-        "https://example.com/essay1",
-        "https://example.com/essay2",
-        "https://example.com/essay3"
-    ];
+    // Load history from localStorage
+    const loadHistory = () => {
+        return JSON.parse(localStorage.getItem('viewedContent')) || {
+            seenPoems: [],
+            seenShortStories: [],
+            seenEssays: []
+        };
+    };
 
-    // User sign-up simulation (basic localStorage mechanism)
-    signupForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const email = document.getElementById('signupEmail').value;
-        const password = document.getElementById('signupPassword').value;
+    // Save history to localStorage
+    const saveHistory = (history) => {
+        localStorage.setItem('viewedContent', JSON.stringify(history));
+    };
 
-        // Simulating user creation and storing in localStorage
-        localStorage.setItem('userEmail', email);
-        localStorage.setItem('userPassword', password);
+    // Get unseen items from the array
+    const getUnseenItems = (items, seenItems) => {
+        const unseenItems = items.filter(item => !seenItems.includes(item));
+        return unseenItems.length > 0 ? unseenItems : items; // If all seen, reset and return all
+    };
 
-        alert('Sign up successful!');
-    });
+    // Mark an item as seen
+    const markAsSeen = (item, category) => {
+        const history = loadHistory();
+        history[category].push(item);
+        saveHistory(history);
+    };
 
-    // User login simulation
-    loginForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const email = document.getElementById('loginEmail').value;
-        const password = document.getElementById('loginPassword').value;
-
-        // Simulating user login check
-        const storedEmail = localStorage.getItem('userEmail');
-        const storedPassword = localStorage.getItem('userPassword');
-
-        if (email === storedEmail && password === storedPassword) {
-            userEmailDisplay.textContent = email;
-            authSection.style.display = 'none';
-            contentSection.style.display = 'block';
-            logoutSection.style.display = 'block';
-        } else {
-            alert('Invalid email or password!');
-        }
-    });
-
-    // Logout simulation
-    logoutBtn.addEventListener('click', () => {
-        authSection.style.display = 'block';
-        contentSection.style.display = 'none';
-        logoutSection.style.display = 'none';
-        alert('Logged out!');
-    });
-
-    // Load content functionality
+    // Button event listeners
     poemBtn.addEventListener('click', () => {
-        const randomPoem = poems[Math.floor(Math.random() * poems.length)];
+        const history = loadHistory();
+        const unseenPoems = getUnseenItems(poems, history.seenPoems);
+        const randomPoem = unseenPoems[Math.floor(Math.random() * unseenPoems.length)];
         window.open(randomPoem, '_blank');
+        markAsSeen(randomPoem, 'seenPoems');
     });
 
     shortStoryBtn.addEventListener('click', () => {
-        const randomShortStory = shortStories[Math.floor(Math.random() * shortStories.length)];
+        const history = loadHistory();
+        const unseenShortStories = getUnseenItems(shortStories, history.seenShortStories);
+        const randomShortStory = unseenShortStories[Math.floor(Math.random() * unseenShortStories.length)];
         window.open(randomShortStory, '_blank');
+        markAsSeen(randomShortStory, 'seenShortStories');
     });
 
     essayBtn.addEventListener('click', () => {
-        const randomEssay = essays[Math.floor(Math.random() * essays.length)];
+        const history = loadHistory();
+        const unseenEssays = getUnseenItems(essays, history.seenEssays);
+        const randomEssay = unseenEssays[Math.floor(Math.random() * unseenEssays.length)];
         window.open(randomEssay, '_blank');
+        markAsSeen(randomEssay, 'seenEssays');
     });
 
-    // Reshuffle simulation
     reshuffleBtn.addEventListener('click', () => {
         alert('Content reshuffled!');
     });
 
-    // Clear history simulation
     clearHistoryBtn.addEventListener('click', () => {
-        localStorage.removeItem('userEmail');
-        localStorage.removeItem('userPassword');
+        localStorage.removeItem('viewedContent');
         alert('History cleared!');
+    });
+
+    // Export history to a JSON file
+    exportBtn.addEventListener('click', () => {
+        const history = loadHistory();
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(history));
+        const downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.setAttribute("href", dataStr);
+        downloadAnchorNode.setAttribute("download", "history.json");
+        document.body.appendChild(downloadAnchorNode); // Required for Firefox
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+    });
+
+    // Import history from a JSON file
+    importBtn.addEventListener('click', () => {
+        importFile.click();
+    });
+
+    importFile.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const importedHistory = JSON.parse(e.target.result);
+            saveHistory(importedHistory);
+            alert('History imported successfully!');
+        };
+        reader.readAsText(file);
     });
 });
