@@ -74,3 +74,41 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem(storageKey, JSON.stringify(seenItems));
     };
 });
+
+
+// Firebase Auth
+const auth = firebase.auth();
+
+// Sign-up
+document.getElementById('signupForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = document.getElementById('signupEmail').value;
+    const password = document.getElementById('signupPassword').value;
+
+    auth.createUserWithEmailAndPassword(email, password)
+        .then(userCredential => {
+            alert('Sign-up successful!');
+            // You can now track user data
+        })
+        .catch(error => {
+            console.error(error.message);
+        });
+});
+
+// Login
+document.getElementById('loginForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+
+    auth.signInWithEmailAndPassword(email, password)
+        .then(userCredential => {
+            alert('Login successful!');
+            const user = userCredential.user;
+            console.log('Logged in as:', user.email);
+        })
+        .catch(error => {
+            console.error(error.message);
+        });
+});
+
