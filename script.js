@@ -3,7 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const db = firebase.firestore();  // Firebase Firestore
 
     // Authentication Elements
-    const googleSignInBtn = document.getElementById('googleSignInBtn');
+    const signupForm = document.getElementById('signupForm');
+    const loginForm = document.getElementById('loginForm');
     const logoutBtn = document.getElementById('logoutBtn');
     const userEmailDisplay = document.getElementById('userEmail');
     const authSection = document.getElementById('authSection');
@@ -91,18 +92,35 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
-        // Google Sign-In
-        googleSignInBtn.addEventListener('click', () => {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            auth.signInWithPopup(provider).then((result) => {
-                const user = result.user;
+        // Signup functionality
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+
+            auth.createUserWithEmailAndPassword(email, password).then(() => {
+                alert('Sign up successful!');
+                initializeUserHistory();
+            }).catch((error) => {
+                alert('Error: ' + error.message);
+            });
+        });
+
+        // Login functionality
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            auth.signInWithEmailAndPassword(email, password).then((userCredential) => {
+                const user = userCredential.user;
                 userEmailDisplay.textContent = user.email;
                 authSection.style.display = 'none';
                 contentSection.style.display = 'block';
                 logoutSection.style.display = 'block';
                 initializeUserHistory();  // Initialize user history if this is the first login
             }).catch((error) => {
-                console.error('Error during Google Sign-In:', error);
+                alert('Error: ' + error.message);
             });
         });
 
