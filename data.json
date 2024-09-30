@@ -1,0 +1,23 @@
+{
+  "poems": [
+    "https://www.poetryfoundation.org/poems/45521/a-dream-within-a-dream",
+    "https://www.poetryfoundation.org/poems/43293/ozymandias",
+    "https://www.poetryfoundation.org/poems/43171/a-poison-tree",
+    "https://www.poetryfoundation.org/poems/50465/the-raven",
+    "https://www.poetryfoundation.org/poems/44475/i-wandered-lonely-as-a-cloud"
+  ],
+  "shortStories": [
+    "https://www.gutenberg.org/ebooks/43",
+    "https://www.gutenberg.org/ebooks/98",
+    "https://www.gutenberg.org/ebooks/1342",
+    "https://www.gutenberg.org/ebooks/174",
+    "https://www.gutenberg.org/ebooks/74"
+  ],
+  "essays": [
+    "https://www.gutenberg.org/ebooks/8800",
+    "https://www.gutenberg.org/ebooks/60009",
+    "https://www.gutenberg.org/ebooks/3022",
+    "https://www.gutenberg.org/ebooks/1744",
+    "https://www.gutenberg.org/ebooks/2554"
+  ]
+}
