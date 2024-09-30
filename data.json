@@ -1,38 +1,23 @@
 {
   "poems": [
-    "https://www.poetryfoundation.org/books/reviews/1605385/after-image",
+    "https://www.poetryfoundation.org/poems/45521/a-dream-within-a-dream",
+    "https://www.poetryfoundation.org/poems/43293/ozymandias",
+    "https://www.poetryfoundation.org/poems/43171/a-poison-tree",
+    "https://www.poetryfoundation.org/poems/50465/the-raven",
+    "https://www.poetryfoundation.org/poems/44475/i-wandered-lonely-as-a-cloud"
   ],
   "shortStories": [
-    "https://www.gutenberg.org/ebooks/1952",
-    "https://www.gutenberg.org/ebooks/1992",
-    "https://americanliterature.com/author/edgar-allan-poe/short-story/the-tell-tale-heart",
-    "https://www.gutenberg.org/ebooks/208",
-    "https://www.gutenberg.org/ebooks/74",
-    "https://americanliterature.com/author/kate-chopin/short-story/the-story-of-an-hour",
-    "https://www.gutenberg.org/ebooks/2148",
-    "https://www.gutenberg.org/ebooks/103",
-    "https://americanliterature.com/author/mark-twain/short-story/the-celebrated-jumping-frog-of-calaveras-county",
     "https://www.gutenberg.org/ebooks/43",
-    "https://americanliterature.com/author/edgar-allan-poe/short-story/the-pit-and-the-pendulum",
-    "https://americanliterature.com/author/washington-irving/short-story/the-legend-of-sleepy-hollow",
-    "https://www.gutenberg.org/ebooks/10007",
-    "https://www.gutenberg.org/ebooks/3296",
+    "https://www.gutenberg.org/ebooks/98",
+    "https://www.gutenberg.org/ebooks/1342",
+    "https://www.gutenberg.org/ebooks/174",
+    "https://www.gutenberg.org/ebooks/74"
   ],
   "essays": [
     "https://www.gutenberg.org/ebooks/8800",
     "https://www.gutenberg.org/ebooks/60009",
     "https://www.gutenberg.org/ebooks/3022",
     "https://www.gutenberg.org/ebooks/1744",
-    "https://www.gutenberg.org/ebooks/2554",
-    "https://www.gutenberg.org/ebooks/15962",
-    "https://www.gutenberg.org/ebooks/10870",
-    "https://www.gutenberg.org/ebooks/844",
-    "https://www.gutenberg.org/ebooks/935",
-    "https://www.gutenberg.org/ebooks/14019",
-    "https://www.gutenberg.org/ebooks/13715",
-    "https://archive.org/details/fouroldfashioned00stevuoft",
-    "https://www.gutenberg.org/ebooks/14068",
-    "https://www.gutenberg.org/ebooks/21279",
-    "https://www.gutenberg.org/ebooks/45631",
+    "https://www.gutenberg.org/ebooks/2554"
   ]
 }
