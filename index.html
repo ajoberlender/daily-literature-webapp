@@ -5,21 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Literature</title>
     <link rel="stylesheet" href="style.css">
-    
-    <!-- Firebase App (the core Firebase SDK) -->
+
+    <!-- Firebase SDK (Load Before Custom Scripts) -->
     <script src="https://www.gstatic.com/firebasejs/9.x/firebase-app.js"></script>
-
-    <!-- Firebase Analytics SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.x/firebase-analytics.js"></script>
-
-    <!-- Firebase Authentication SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.x/firebase-auth.js"></script>
-
-    <!-- Firebase Firestore SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.x/firebase-firestore.js"></script>
 
     <script>
-        // Your web app's Firebase configuration
+        // Initialize Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyCA_FIMfr4gdsmcav1L1EsFFolBdw0QJvQ",
             authDomain: "daily-literature-18092.firebaseapp.com",
@@ -30,9 +23,8 @@
             measurementId: "G-K7J8FQSHMN"
         };
 
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const analytics = firebase.analytics();
+        // Initialize Firebase App
+        firebase.initializeApp(firebaseConfig);
     </script>
 </head>
 <body>
@@ -76,8 +68,9 @@
                 <button id="clearHistoryBtn" class="small-button">Clear History</button>
             </div>
         </div>
-    </div>
 
-    <script src="script.js"></script>
+        <!-- Load Custom JavaScript After Firebase Initialization -->
+        <script src="script.js"></script>
+    </div>
 </body>
 </html>
