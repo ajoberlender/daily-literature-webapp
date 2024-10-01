@@ -29,11 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update counter display
         updateCounterDisplay(numPoemsRead, numShortStoriesRead, numEssaysRead, streak, bestStreak);
 
-        // Get unseen items
-        let currentPoem = getUnseenItem(poems, seenPoems);
-        let currentShortStory = getUnseenItem(shortStories, seenShortStories);
-        let currentEssay = getUnseenItem(essays, seenEssays);
-
         // Set up buttons to open the URLs in a new tab
         document.getElementById('poemBtn').addEventListener('click', () => {
             window.open(currentPoem, '_blank');
@@ -106,6 +101,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 };
                 reader.readAsText(file);
             }
+        });
+
+        // View history button to display the local history in a new window
+        document.getElementById('viewHistoryBtn').addEventListener('click', () => {
+            viewHistory(seenPoems, seenShortStories, seenEssays, numPoemsRead, numShortStoriesRead, numEssaysRead, streak, bestStreak);
         });
     };
 
@@ -239,5 +239,32 @@ document.addEventListener('DOMContentLoaded', () => {
             history.streak || 0,
             history.bestStreak || 0
         );
+    };
+
+    // Function to view history in a new window
+    const viewHistory = (poems, shortStories, essays, poemsRead, shortStoriesRead, essaysRead, streak, bestStreak) => {
+        let historyWindow = window.open("", "_blank");
+        historyWindow.document.write("<html><head><title>Your History</title></head><body>");
+        historyWindow.document.write("<h1>Reading History</h1>");
+        historyWindow.document.write("<p>Poems read: " + poemsRead + "</p>");
+        historyWindow.document.write("<p>Short Stories read: " + shortStoriesRead + "</p>");
+        historyWindow.document.write("<p>Essays read: " + essaysRead + "</p>");
+        historyWindow.document.write("<p>Current Streak: " + streak + " days</p>");
+        historyWindow.document.write("<p>All-Time Best Streak: " + bestStreak + " days</p>");
+        historyWindow.document.write("<h2>Read URLs</h2>");
+        
+        historyWindow.document.write("<h3>Poems:</h3><ul>");
+        poems.forEach(poem => historyWindow.document.write("<li>" + poem + "</li>"));
+        historyWindow.document.write("</ul>");
+        
+        historyWindow.document.write("<h3>Short Stories:</h3><ul>");
+        shortStories.forEach(story => historyWindow.document.write("<li>" + story + "</li>"));
+        historyWindow.document.write("</ul>");
+        
+        historyWindow.document.write("<h3>Essays:</h3><ul>");
+        essays.forEach(essay => historyWindow.document.write("<li>" + essay + "</li>"));
+        historyWindow.document.write("</ul>");
+        
+        historyWindow.document.write("</body></html>");
     };
 });
