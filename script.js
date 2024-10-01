@@ -6,6 +6,50 @@ document.addEventListener('DOMContentLoaded', () => {
             setupApp(data);
         });
 
+    // Function to update the read date and streak
+    const updateReadDate = () => {
+        const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD
+        let lastReadDate = localStorage.getItem('lastReadDate');
+
+        if (lastReadDate !== today) {
+            let currentStreak = parseInt(localStorage.getItem('currentStreak')) || 0;
+            let bestStreak = parseInt(localStorage.getItem('bestStreak')) || 0;
+
+            // Check if the last read date was yesterday to maintain the streak
+            if (lastReadDate && isYesterday(lastReadDate)) {
+                currentStreak++;
+            } else {
+                currentStreak = 1; // Start new streak
+            }
+
+            // Update best streak if current streak exceeds it
+            if (currentStreak > bestStreak) {
+                bestStreak = currentStreak;
+                localStorage.setItem('bestStreak', bestStreak);
+                document.getElementById('bestStreak').innerText = bestStreak;
+            }
+
+            localStorage.setItem('currentStreak', currentStreak);
+            localStorage.setItem('lastReadDate', today);
+            document.getElementById('currentStreak').innerText = currentStreak;
+        }
+    };
+
+    // Helper function to check if a given date is yesterday
+    const isYesterday = (dateString) => {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        return dateString === yesterday.toISOString().split('T')[0];
+    };
+
+    // Function to update the piece count
+    const updatePieceCount = (localStorageKey, elementId) => {
+        let count = parseInt(localStorage.getItem(localStorageKey)) || 0;
+        count++;
+        localStorage.setItem(localStorageKey, count);
+        document.getElementById(elementId).innerText = count; // Ensure DOM update
+    };
+
     const setupApp = (data) => {
         let { poems, shortStories, essays } = data;
 
@@ -30,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('bestStreak').innerText = bestStreak;
 
         // Check and update streak if a new day
-        updateStreak(lastReadDate);
+        updateReadDate();
 
         // Get unseen items
         let currentPoem = getUnseenItem(poems, seenPoems);
@@ -85,48 +129,21 @@ document.addEventListener('DOMContentLoaded', () => {
         // Export/import functions remain the same...
     };
 
-    // Function to update the piece count
-    const updatePieceCount = (localStorageKey, elementId) => {
-        let count = parseInt(localStorage.getItem(localStorageKey)) || 0;
-        count++;
-        localStorage.setItem(localStorageKey, count);
-        document.getElementById(elementId).innerText = count; // Ensure DOM update
-    };
-
-    // Function to update the read date and streak
-    const updateReadDate = () => {
-        const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD
-        let lastReadDate = localStorage.getItem('lastReadDate');
-
-        if (lastReadDate !== today) {
-            let currentStreak = parseInt(localStorage.getItem('currentStreak')) || 0;
-            let bestStreak = parseInt(localStorage.getItem('bestStreak')) || 0;
-
-            // Check if the last read date was yesterday to maintain the streak
-            if (lastReadDate && isYesterday(lastReadDate)) {
-                currentStreak++;
-            } else {
-                currentStreak = 1; // Start new streak
-            }
-
-            // Update best streak if current streak exceeds it
-            if (currentStreak > bestStreak) {
-                bestStreak = currentStreak;
-                localStorage.setItem('bestStreak', bestStreak);
-                document.getElementById('bestStreak').innerText = bestStreak;
-            }
-
-            localStorage.setItem('currentStreak', currentStreak);
-            localStorage.setItem('lastReadDate', today);
-            document.getElementById('currentStreak').innerText = currentStreak;
+    // Function to get an unseen item
+    const getUnseenItem = (items, seenItems) => {
+        let unseenItems = items.filter(item => !seenItems.includes(item));
+        if (unseenItems.length === 0) {
+            unseenItems = items;
+            seenItems = [];
         }
+        return unseenItems[Math.floor(Math.random() * unseenItems.length)];
     };
 
-    // Helper function to check if a given date is yesterday
-    const isYesterday = (dateString) => {
-        const yesterday = new Date();
-        yesterday.setDate(yesterday.getDate() - 1);
-        return dateString === yesterday.toISOString().split('T')[0];
+    // Function to mark an item as seen and store in localStorage
+    const markAsSeen = (item, storageKey) => {
+        let seenItems = JSON.parse(localStorage.getItem(storageKey)) || [];
+        seenItems.push(item);
+        localStorage.setItem(storageKey, JSON.stringify(seenItems));
     };
 
     // Other unchanged functions (getUnseenItem, markAsSeen, downloadHistoryFile, importHistory) remain the same...
