@@ -29,6 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update counter display
         updateCounterDisplay(numPoemsRead, numShortStoriesRead, numEssaysRead, streak, bestStreak);
 
+        // Get unseen items
+        let currentPoem = getUnseenItem(poems, seenPoems);
+        let currentShortStory = getUnseenItem(shortStories, seenShortStories);
+        let currentEssay = getUnseenItem(essays, seenEssays);
+
         // Set up buttons to open the URLs in a new tab
         document.getElementById('poemBtn').addEventListener('click', () => {
             window.open(currentPoem, '_blank');
@@ -243,28 +248,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to view history in a new window
     const viewHistory = (poems, shortStories, essays, poemsRead, shortStoriesRead, essaysRead, streak, bestStreak) => {
-        let historyWindow = window.open("", "_blank");
-        historyWindow.document.write("<html><head><title>Your History</title></head><body>");
-        historyWindow.document.write("<h1>Reading History</h1>");
-        historyWindow.document.write("<p>Poems read: " + poemsRead + "</p>");
-        historyWindow.document.write("<p>Short Stories read: " + shortStoriesRead + "</p>");
-        historyWindow.document.write("<p>Essays read: " + essaysRead + "</p>");
-        historyWindow.document.write("<p>Current Streak: " + streak + " days</p>");
-        historyWindow.document.write("<p>All-Time Best Streak: " + bestStreak + " days</p>");
-        historyWindow.document.write("<h2>Read URLs</h2>");
-        
-        historyWindow.document.write("<h3>Poems:</h3><ul>");
-        poems.forEach(poem => historyWindow.document.write("<li>" + poem + "</li>"));
-        historyWindow.document.write("</ul>");
-        
-        historyWindow.document.write("<h3>Short Stories:</h3><ul>");
-        shortStories.forEach(story => historyWindow.document.write("<li>" + story + "</li>"));
-        historyWindow.document.write("</ul>");
-        
-        historyWindow.document.write("<h3>Essays:</h3><ul>");
-        essays.forEach(essay => historyWindow.document.write("<li>" + essay + "</li>"));
-        historyWindow.document.write("</ul>");
-        
-        historyWindow.document.write("</body></html>");
+        let historyWindow = window.open("", "_blank", "width=800,height=600"); // Ensure a new window is opened
+        if (historyWindow) { // If window is successfully opened
+            historyWindow.document.write("<html><head><title>Your History</title></head><body>");
+            historyWindow.document.write("<h1>Reading History</h1>");
+            historyWindow.document.write("<p>Poems read: " + poemsRead + "</p>");
+            historyWindow.document.write("<p>Short Stories read: " + shortStoriesRead + "</p>");
+            historyWindow.document.write("<p>Essays read: " + essaysRead + "</p>");
+            historyWindow.document.write("<p>Current Streak: " + streak + " days</p>");
+            historyWindow.document.write("<p>All-Time Best Streak: " + bestStreak + " days</p>");
+            historyWindow.document.write("<h2>Read URLs</h2>");
+            
+            historyWindow.document.write("<h3>Poems:</h3><ul>");
+            poems.forEach(poem => historyWindow.document.write("<li><a href='" + poem + "' target='_blank'>" + poem + "</a></li>"));
+            historyWindow.document.write("</ul>");
+            
+            historyWindow.document.write("<h3>Short Stories:</h3><ul>");
+            shortStories.forEach(story => historyWindow.document.write("<li><a href='" + story + "' target='_blank'>" + story + "</a></li>"));
+            historyWindow.document.write("</ul>");
+            
+            historyWindow.document.write("<h3>Essays:</h3><ul>");
+            essays.forEach(essay => historyWindow.document.write("<li><a href='" + essay + "' target='_blank'>" + essay + "</a></li>"));
+            historyWindow.document.write("</ul>");
+            
+            historyWindow.document.write("</body></html>");
+            historyWindow.document.close(); // Close document writing to render the content
+        } else {
+            alert("Pop-up blocked. Please allow pop-ups for this site to view your history.");
+        }
     };
 });
