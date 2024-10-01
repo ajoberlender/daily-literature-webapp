@@ -50,20 +50,43 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.removeItem('seenEssays');
             alert('History cleared!');
         });
+
+        // Export history button
+        document.getElementById('exportHistoryBtn').addEventListener('click', () => {
+            const history = {
+                seenPoems: JSON.parse(localStorage.getItem('seenPoems')) || [],
+                seenShortStories: JSON.parse(localStorage.getItem('seenShortStories')) || [],
+                seenEssays: JSON.parse(localStorage.getItem('seenEssays')) || []
+            };
+            downloadHistoryFile(history);
+        });
+
+        // Import history button
+        document.getElementById('importHistoryBtn').addEventListener('click', () => {
+            document.getElementById('importHistoryInput').click();
+        });
+
+        document.getElementById('importHistoryInput').addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const importedHistory = JSON.parse(e.target.result);
+                    importHistory(importedHistory);
+                    alert('History imported successfully!');
+                };
+                reader.readAsText(file);
+            }
+        });
     };
 
     // Function to get an unseen item
     const getUnseenItem = (items, seenItems) => {
-        // Filter out seen items
         let unseenItems = items.filter(item => !seenItems.includes(item));
-
-        // If all items have been seen, clear seenItems to start again
         if (unseenItems.length === 0) {
             unseenItems = items;
             seenItems = [];
         }
-
-        // Return a random unseen item
         return unseenItems[Math.floor(Math.random() * unseenItems.length)];
     };
 
@@ -72,5 +95,29 @@ document.addEventListener('DOMContentLoaded', () => {
         let seenItems = JSON.parse(localStorage.getItem(storageKey)) || [];
         seenItems.push(item);
         localStorage.setItem(storageKey, JSON.stringify(seenItems));
+    };
+
+    // Function to download history as a JSON file
+    const downloadHistoryFile = (history) => {
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(history));
+        const downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", dataStr);
+        downloadAnchor.setAttribute("download", "literature_history.json");
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+    };
+
+    // Function to import history from a JSON file and store in localStorage
+    const importHistory = (history) => {
+        if (history.seenPoems) {
+            localStorage.setItem('seenPoems', JSON.stringify(history.seenPoems));
+        }
+        if (history.seenShortStories) {
+            localStorage.setItem('seenShortStories', JSON.stringify(history.seenShortStories));
+        }
+        if (history.seenEssays) {
+            localStorage.setItem('seenEssays', JSON.stringify(history.seenEssays));
+        }
     };
 });
