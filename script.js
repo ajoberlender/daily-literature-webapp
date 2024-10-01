@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // View history button to display the local history in a new window
+        // View history button to display the local history in a new tab
         document.getElementById('viewHistoryBtn').addEventListener('click', () => {
             viewHistory(seenPoems, seenShortStories, seenEssays, numPoemsRead, numShortStoriesRead, numEssaysRead, streak, bestStreak);
         });
@@ -246,33 +246,33 @@ document.addEventListener('DOMContentLoaded', () => {
         );
     };
 
-    // Function to view history in a new window
+    // Function to view history in a new tab
     const viewHistory = (poems, shortStories, essays, poemsRead, shortStoriesRead, essaysRead, streak, bestStreak) => {
-        let historyWindow = window.open("", "_blank", "width=800,height=600"); // Ensure a new window is opened
-        if (historyWindow) { // If window is successfully opened
-            historyWindow.document.write("<html><head><title>Your History</title></head><body>");
-            historyWindow.document.write("<h1>Reading History</h1>");
-            historyWindow.document.write("<p>Poems read: " + poemsRead + "</p>");
-            historyWindow.document.write("<p>Short Stories read: " + shortStoriesRead + "</p>");
-            historyWindow.document.write("<p>Essays read: " + essaysRead + "</p>");
-            historyWindow.document.write("<p>Current Streak: " + streak + " days</p>");
-            historyWindow.document.write("<p>All-Time Best Streak: " + bestStreak + " days</p>");
-            historyWindow.document.write("<h2>Read URLs</h2>");
+        let historyTab = window.open("about:blank", "_blank"); // Open in a new tab
+        if (historyTab) { // If the tab is successfully opened
+            historyTab.document.write("<html><head><title>Your History</title></head><body>");
+            historyTab.document.write("<h1>Reading History</h1>");
+            historyTab.document.write("<p>Poems read: " + poemsRead + "</p>");
+            historyTab.document.write("<p>Short Stories read: " + shortStoriesRead + "</p>");
+            historyTab.document.write("<p>Essays read: " + essaysRead + "</p>");
+            historyTab.document.write("<p>Current Streak: " + streak + " days</p>");
+            historyTab.document.write("<p>All-Time Best Streak: " + bestStreak + " days</p>");
+            historyTab.document.write("<h2>Read URLs</h2>");
             
-            historyWindow.document.write("<h3>Poems:</h3><ul>");
-            poems.forEach(poem => historyWindow.document.write("<li><a href='" + poem + "' target='_blank'>" + poem + "</a></li>"));
-            historyWindow.document.write("</ul>");
+            historyTab.document.write("<h3>Poems:</h3><ul>");
+            poems.forEach(poem => historyTab.document.write("<li><a href='" + poem + "' target='_blank'>" + poem + "</a></li>"));
+            historyTab.document.write("</ul>");
             
-            historyWindow.document.write("<h3>Short Stories:</h3><ul>");
-            shortStories.forEach(story => historyWindow.document.write("<li><a href='" + story + "' target='_blank'>" + story + "</a></li>"));
-            historyWindow.document.write("</ul>");
+            historyTab.document.write("<h3>Short Stories:</h3><ul>");
+            shortStories.forEach(story => historyTab.document.write("<li><a href='" + story + "' target='_blank'>" + story + "</a></li>"));
+            historyTab.document.write("</ul>");
             
-            historyWindow.document.write("<h3>Essays:</h3><ul>");
-            essays.forEach(essay => historyWindow.document.write("<li><a href='" + essay + "' target='_blank'>" + essay + "</a></li>"));
-            historyWindow.document.write("</ul>");
+            historyTab.document.write("<h3>Essays:</h3><ul>");
+            essays.forEach(essay => historyTab.document.write("<li><a href='" + essay + "' target='_blank'>" + essay + "</a></li>"));
+            historyTab.document.write("</ul>");
             
-            historyWindow.document.write("</body></html>");
-            historyWindow.document.close(); // Close document writing to render the content
+            historyTab.document.write("</body></html>");
+            historyTab.document.close(); // Close document writing to render the content
         } else {
             alert("Pop-up blocked. Please allow pop-ups for this site to view your history.");
         }
