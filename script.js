@@ -26,6 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
             updateStreak(today);
         }
 
+        // Update counter display
+        updateCounterDisplay(numPoemsRead, numShortStoriesRead, numEssaysRead, streak, bestStreak);
+
         // Get unseen items
         let currentPoem = getUnseenItem(poems, seenPoems);
         let currentShortStory = getUnseenItem(shortStories, seenShortStories);
@@ -63,7 +66,13 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.removeItem('seenPoems');
             localStorage.removeItem('seenShortStories');
             localStorage.removeItem('seenEssays');
-            alert('History cleared!');
+            localStorage.removeItem('numPoemsRead');
+            localStorage.removeItem('numShortStoriesRead');
+            localStorage.removeItem('numEssaysRead');
+            localStorage.removeItem('streak');
+            localStorage.removeItem('bestStreak');
+            alert('History and counters cleared!');
+            updateCounterDisplay(0, 0, 0, 0, 0);
         });
 
         // Export history button
@@ -122,9 +131,12 @@ document.addEventListener('DOMContentLoaded', () => {
         let count = parseInt(localStorage.getItem(key)) || 0;
         count += 1;
         localStorage.setItem(key, count);
+
+        // Update the displayed counters after increment
+        updateDisplayedCounter(key, count);
     };
 
-    // Function to update streaks
+    // Function to update the streaks
     const updateStreak = (today) => {
         let lastInteraction = localStorage.getItem('lastInteraction');
         let streak = parseInt(localStorage.getItem('streak')) || 0;
@@ -140,56 +152,4 @@ document.addEventListener('DOMContentLoaded', () => {
                 streak = 1; // Reset streak if more than a day has passed
             }
         } else {
-            streak = 1; // Initialize streak if it's the user's first interaction
-        }
-
-        // Update best streak
-        if (streak > bestStreak) {
-            bestStreak = streak;
-        }
-
-        // Save streaks and last interaction date
-        localStorage.setItem('streak', streak);
-        localStorage.setItem('bestStreak', bestStreak);
-        localStorage.setItem('lastInteraction', today);
-    };
-
-    // Function to download history as a JSON file
-    const downloadHistoryFile = (history) => {
-        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(history));
-        const downloadAnchor = document.createElement('a');
-        downloadAnchor.setAttribute("href", dataStr);
-        downloadAnchor.setAttribute("download", "literature_history.json");
-        document.body.appendChild(downloadAnchor);
-        downloadAnchor.click();
-        downloadAnchor.remove();
-    };
-
-    // Function to import history from a JSON file and store in localStorage
-    const importHistory = (history) => {
-        if (history.seenPoems) {
-            localStorage.setItem('seenPoems', JSON.stringify(history.seenPoems));
-        }
-        if (history.seenShortStories) {
-            localStorage.setItem('seenShortStories', JSON.stringify(history.seenShortStories));
-        }
-        if (history.seenEssays) {
-            localStorage.setItem('seenEssays', JSON.stringify(history.seenEssays));
-        }
-        if (history.numPoemsRead) {
-            localStorage.setItem('numPoemsRead', history.numPoemsRead);
-        }
-        if (history.numShortStoriesRead) {
-            localStorage.setItem('numShortStoriesRead', history.numShortStoriesRead);
-        }
-        if (history.numEssaysRead) {
-            localStorage.setItem('numEssaysRead', history.numEssaysRead);
-        }
-        if (history.streak) {
-            localStorage.setItem('streak', history.streak);
-        }
-        if (history.bestStreak) {
-            localStorage.setItem('bestStreak', history.bestStreak);
-        }
-    };
-});
+            streak = 1
