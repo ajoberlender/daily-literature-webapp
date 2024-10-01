@@ -152,4 +152,92 @@ document.addEventListener('DOMContentLoaded', () => {
                 streak = 1; // Reset streak if more than a day has passed
             }
         } else {
-            streak = 1
+            streak = 1; // Initialize streak if it's the user's first interaction
+        }
+
+        // Update best streak
+        if (streak > bestStreak) {
+            bestStreak = streak;
+        }
+
+        // Save streaks and last interaction date
+        localStorage.setItem('streak', streak);
+        localStorage.setItem('bestStreak', bestStreak);
+        localStorage.setItem('lastInteraction', today);
+
+        // Update counter display
+        updateCounterDisplay(null, null, null, streak, bestStreak);
+    };
+
+    // Function to update all counters in the UI
+    const updateCounterDisplay = (poemsRead, shortStoriesRead, essaysRead, currentStreak, bestStreak) => {
+        if (poemsRead !== null) document.getElementById('poemsRead').textContent = poemsRead;
+        if (shortStoriesRead !== null) document.getElementById('shortStoriesRead').textContent = shortStoriesRead;
+        if (essaysRead !== null) document.getElementById('essaysRead').textContent = essaysRead;
+        if (currentStreak !== null) document.getElementById('currentStreak').textContent = currentStreak;
+        if (bestStreak !== null) document.getElementById('bestStreak').textContent = bestStreak;
+    };
+
+    // Function to update individual counter after increment
+    const updateDisplayedCounter = (key, value) => {
+        switch (key) {
+            case 'numPoemsRead':
+                document.getElementById('poemsRead').textContent = value;
+                break;
+            case 'numShortStoriesRead':
+                document.getElementById('shortStoriesRead').textContent = value;
+                break;
+            case 'numEssaysRead':
+                document.getElementById('essaysRead').textContent = value;
+                break;
+        }
+    };
+
+    // Function to download history as a JSON file
+    const downloadHistoryFile = (history) => {
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(history));
+        const downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", dataStr);
+        downloadAnchor.setAttribute("download", "literature_history.json");
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+    };
+
+    // Function to import history from a JSON file and store in localStorage
+    const importHistory = (history) => {
+        if (history.seenPoems) {
+            localStorage.setItem('seenPoems', JSON.stringify(history.seenPoems));
+        }
+        if (history.seenShortStories) {
+            localStorage.setItem('seenShortStories', JSON.stringify(history.seenShortStories));
+        }
+        if (history.seenEssays) {
+            localStorage.setItem('seenEssays', JSON.stringify(history.seenEssays));
+        }
+        if (history.numPoemsRead) {
+            localStorage.setItem('numPoemsRead', history.numPoemsRead);
+        }
+        if (history.numShortStoriesRead) {
+            localStorage.setItem('numShortStoriesRead', history.numShortStoriesRead);
+        }
+        if (history.numEssaysRead) {
+            localStorage.setItem('numEssaysRead', history.numEssaysRead);
+        }
+        if (history.streak) {
+            localStorage.setItem('streak', history.streak);
+        }
+        if (history.bestStreak) {
+            localStorage.setItem('bestStreak', history.bestStreak);
+        }
+
+        // Update the counter display after importing
+        updateCounterDisplay(
+            history.numPoemsRead || 0,
+            history.numShortStoriesRead || 0,
+            history.numEssaysRead || 0,
+            history.streak || 0,
+            history.bestStreak || 0
+        );
+    };
+});
