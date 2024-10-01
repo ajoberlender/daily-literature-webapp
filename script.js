@@ -41,21 +41,21 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('poemBtn').addEventListener('click', () => {
             window.open(currentPoem, '_blank');
             markAsSeen(currentPoem, 'seenPoems');
-            updatePieceCount('poemCount');
+            updatePieceCount('poemCount', 'poemCount'); // Update poem count
             updateReadDate();
         });
 
         document.getElementById('shortStoryBtn').addEventListener('click', () => {
             window.open(currentShortStory, '_blank');
             markAsSeen(currentShortStory, 'seenShortStories');
-            updatePieceCount('shortStoryCount');
+            updatePieceCount('shortStoryCount', 'shortStoryCount'); // Update short story count
             updateReadDate();
         });
 
         document.getElementById('essayBtn').addEventListener('click', () => {
             window.open(currentEssay, '_blank');
             markAsSeen(currentEssay, 'seenEssays');
-            updatePieceCount('essayCount');
+            updatePieceCount('essayCount', 'essayCount'); // Update essay count
             updateReadDate();
         });
 
@@ -86,11 +86,11 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Function to update the piece count
-    const updatePieceCount = (pieceType) => {
-        let count = parseInt(localStorage.getItem(pieceType)) || 0;
+    const updatePieceCount = (localStorageKey, elementId) => {
+        let count = parseInt(localStorage.getItem(localStorageKey)) || 0;
         count++;
-        localStorage.setItem(pieceType, count);
-        document.getElementById(pieceType.replace('Count', '') + 'Count').innerText = count;
+        localStorage.setItem(localStorageKey, count);
+        document.getElementById(elementId).innerText = count; // Ensure DOM update
     };
 
     // Function to update the read date and streak
