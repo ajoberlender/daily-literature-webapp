@@ -20,9 +20,15 @@ document.addEventListener('DOMContentLoaded', () => {
         let bestStreak = parseInt(localStorage.getItem('bestStreak')) || 0;
         let lastInteraction = localStorage.getItem('lastInteraction') || null;
 
+        // Track whether user has read all 3 types for the day
+        let hasReadPoemToday = JSON.parse(localStorage.getItem('hasReadPoemToday')) || false;
+        let hasReadShortStoryToday = JSON.parse(localStorage.getItem('hasReadShortStoryToday')) || false;
+        let hasReadEssayToday = JSON.parse(localStorage.getItem('hasReadEssayToday')) || false;
+
         // Update streak if a new day
         const today = new Date().toDateString();
         if (lastInteraction !== today) {
+            resetDailyReads(); // Reset daily read flags if a new day starts
             updateStreak(today);
         }
 
@@ -39,18 +45,24 @@ document.addEventListener('DOMContentLoaded', () => {
             window.open(currentPoem, '_blank');
             markAsSeen(currentPoem, 'seenPoems');
             incrementCounter('numPoemsRead');
+            markAsReadToday('hasReadPoemToday');
+            checkDailyCompletion(); // Check if all three types are read today
         });
 
         document.getElementById('shortStoryBtn').addEventListener('click', () => {
             window.open(currentShortStory, '_blank');
             markAsSeen(currentShortStory, 'seenShortStories');
             incrementCounter('numShortStoriesRead');
+            markAsReadToday('hasReadShortStoryToday');
+            checkDailyCompletion(); // Check if all three types are read today
         });
 
         document.getElementById('essayBtn').addEventListener('click', () => {
             window.open(currentEssay, '_blank');
             markAsSeen(currentEssay, 'seenEssays');
             incrementCounter('numEssaysRead');
+            markAsReadToday('hasReadEssayToday');
+            checkDailyCompletion(); // Check if all three types are read today
         });
 
         // Reshuffle button to get new unseen items
@@ -71,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.removeItem('numEssaysRead');
             localStorage.removeItem('streak');
             localStorage.removeItem('bestStreak');
+            resetDailyReads(); // Clear daily read flags
             alert('History and counters cleared!');
             updateCounterDisplay(0, 0, 0, 0, 0);
         });
@@ -143,35 +156,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to update the streaks
     const updateStreak = (today) => {
-        let lastInteraction = localStorage.getItem('lastInteraction');
+        localStorage.setItem('lastInteraction', today); // Save the current day as last interaction
+    };
+
+    // Function to check if user has read all three types today and update streak
+    const checkDailyCompletion = () => {
+        let hasReadPoemToday = JSON.parse(localStorage.getItem('hasReadPoemToday')) || false;
+        let hasReadShortStoryToday = JSON.parse(localStorage.getItem('hasReadShortStoryToday')) || false;
+        let hasReadEssayToday = JSON.parse(localStorage.getItem('hasReadEssayToday')) || false;
         let streak = parseInt(localStorage.getItem('streak')) || 0;
         let bestStreak = parseInt(localStorage.getItem('bestStreak')) || 0;
 
-        if (lastInteraction) {
-            const lastDate = new Date(lastInteraction);
-            const difference = (new Date(today) - lastDate) / (1000 * 60 * 60 * 24);
-
-            if (difference === 1) {
-                streak += 1; // Increment streak if it's the next day
-            } else if (difference > 1) {
-                streak = 1; // Reset streak if more than a day has passed
+        // If all types have been read today, increment the streak
+        if (hasReadPoemToday && hasReadShortStoryToday && hasReadEssayToday) {
+            streak += 1;
+            if (streak > bestStreak) {
+                bestStreak = streak;
             }
-        } else {
-            streak = 1; // Initialize streak if it's the user's first interaction
+            localStorage.setItem('streak', streak);
+            localStorage.setItem('bestStreak', bestStreak);
+
+            // Reset daily read flags
+            resetDailyReads();
+            updateCounterDisplay(null, null, null, streak, bestStreak);
         }
+    };
 
-        // Update best streak
-        if (streak > bestStreak) {
-            bestStreak = streak;
-        }
+    // Function to reset daily read flags
+    const resetDailyReads = () => {
+        localStorage.setItem('hasReadPoemToday', false);
+        localStorage.setItem('hasReadShortStoryToday', false);
+        localStorage.setItem('hasReadEssayToday', false);
+    };
 
-        // Save streaks and last interaction date
-        localStorage.setItem('streak', streak);
-        localStorage.setItem('bestStreak', bestStreak);
-        localStorage.setItem('lastInteraction', today);
-
-        // Update counter display
-        updateCounterDisplay(null, null, null, streak, bestStreak);
+    // Function to mark specific literature type as read for the day
+    const markAsReadToday = (key) => {
+        localStorage.setItem(key, true);
     };
 
     // Function to update all counters in the UI
