@@ -1,35 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Random Literature</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin: 50px;
-    }
-    button {
-      padding: 15px;
-      margin: 10px;
-      font-size: 18px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Literature</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="container">
+        <h1>Daily Literature</h1>
+        <p>Click the buttons below to read a random piece of literature for today!</p>
 
-  <h1>Daily Literature</h1>
-  <p>Every day, discover a new poem, short story, and essay. Click below to explore!</p>
+        <!-- Larger Buttons for Main Content -->
+        <div class="buttons">
+            <button id="poemBtn" class="large-button">Poem</button>
+            <button id="shortStoryBtn" class="large-button">Short Story</button>
+            <button id="essayBtn" class="large-button">Essay</button>
+        </div>
 
-  <button id="poem-btn">Poem</button>
-  <button id="story-btn">Short Story</button>
-  <button id="essay-btn">Essay</button>
-  
-  <br>
-  <button id="reshuffle-btn">Reshuffle</button>
+        <!-- Control Buttons for Reshuffling and Clearing History -->
+        <div class="control-buttons">
+            <button id="reshuffleBtn" class="small-button">Reshuffle</button>
+            <button id="clearHistoryBtn" class="small-button">Clear History</button>
+        </div>
+    </div>
 
-  <script src="app.js"></script>
-
+    <script src="script.js"></script>
 </body>
 </html>
